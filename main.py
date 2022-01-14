@@ -1,7 +1,7 @@
 import polib
 import deepl
 
-DEEPL_API_TOKEN = 'ADD YOUR API KEY HERE'
+DEEPL_API_TOKEN = 'ADD YOUR API KEY HERE!'
 
 def translate(text, lang):
     translator = deepl.Translator(DEEPL_API_TOKEN)
