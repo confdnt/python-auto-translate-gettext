@@ -14,6 +14,13 @@ Get an API key from DeepL for free. Add it as an environment variable or directl
 
 Just run python ./main.py
 
+or
+
+python ./main.py -l FR -f ./text.po
+
+-l = Language
+-f = Filename (full path)
+
 Provide the full path of your .po file.
 Pick the language it should be translated to e.g. DE or FR.
 
