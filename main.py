@@ -2,6 +2,7 @@ import polib
 import deepl
 import getopt
 import sys
+import re
 
 DEEPL_API_TOKEN = 'ADD YOUR API KEY HERE!'
 
@@ -13,8 +14,27 @@ argv = sys.argv[1:]
 opts, args = getopt.getopt(argv, "f:l:")
 
 def translate(text, lang):
+    # Define a dictionary to hold the mappings of tokens to placeholders
+    placeholders = {}
+
+    # Use a regular expression to find all the tokens
+    tokens = re.findall(r'%\((.*?)\)s', text)
+
+    # Replace each token with a unique placeholder
+    for i, token in enumerate(tokens):
+        placeholder = f'__PLACEHOLDER_{i}__'
+        placeholders[placeholder] = f'%({token})s'
+        text = text.replace(f'%({token})s', placeholder)
+
+    # Perform the translation
     translator = deepl.Translator(DEEPL_API_TOKEN)
-    return str(translator.translate_text(text, target_lang=lang))
+    translated_text = str(translator.translate_text(text, target_lang=lang))
+
+    # Replace the placeholders back with the original tokens
+    for placeholder, token in placeholders.items():
+        translated_text = translated_text.replace(placeholder, token)
+
+    return translated_text
 
 def get_filename():
     # read arguments from command line
